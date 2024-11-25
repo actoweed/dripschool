@@ -1,0 +1,96 @@
+{% extends 'index.html' %}
+
+{% block title %}Создать курс | eLMS{% endblock title %}
+
+{% block content %}
+<div class="container shadow-sm rounded my-4">
+   <!-- Заголовок -->
+   <div class="row">
+      <div class="col-12 text-center">
+         <h2 class="my-4">Создать новый курс</h2>
+      </div>
+   </div>
+
+   <!-- Форма создания курса -->
+   <div class="row">
+      <div class="col-md-8 offset-md-2">
+         <form method="POST" class="p-4 bg-light shadow-sm rounded">
+            {% csrf_token %}
+            {% if error %}
+               <div class="alert alert-danger">{{ error }}</div>
+            {% endif %}
+
+            <!-- Код курса -->
+            <div class="form-group mb-3">
+               <label for="code" class="form-label">Код курса</label>
+               <input
+                  type="text"
+                  name="code"
+                  id="code"
+                  class="form-control"
+                  placeholder="Введите уникальный код курса"
+                  required>
+            </div>
+
+            <!-- Название курса -->
+            <div class="form-group mb-3">
+               <label for="name" class="form-label">Название курса</label>
+               <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  class="form-control"
+                  placeholder="Введите название курса"
+                  required>
+            </div>
+
+            <!-- Отдел (выбираем по ID) -->
+            <div class="form-group mb-3">
+               <label for="department" class="form-label">Предмет</label>
+               <select name="department" id="department" class="form-select" required>
+                  <option value="" selected disabled>Выберите предмет</option>
+                  {% for department in departments %}
+                     <option value="{{ department.department_id }}">{{ department.name }} (ID: {{ department.department_id }})</option>
+                  {% endfor %}
+               </select>
+            </div>
+
+            <!-- Преподаватель -->
+            <div class="form-group mb-3">
+               <label for="faculty_name" class="form-label">Имя преподавателя</label>
+               <input type="text" name="faculty_name" id="faculty_name" class="form-control" placeholder="Введите имя преподавателя" required>
+            </div>
+
+            <!-- Ключ студента -->
+            <div class="form-group mb-3">
+               <label for="student_key" class="form-label">Ключ студента</label>
+               <input
+                  type="text"
+                  name="student_key"
+                  id="student_key"
+                  class="form-control"
+                  placeholder="Введите ключ для студентов"
+                  required>
+            </div>
+
+            <!-- Ключ преподавателя -->
+            <div class="form-group mb-3">
+               <label for="faculty_key" class="form-label">Ключ преподавателя</label>
+               <input
+                  type="text"
+                  name="faculty_key"
+                  id="faculty_key"
+                  class="form-control"
+                  placeholder="Введите ключ для преподавателей"
+                  required>
+            </div>
+
+            <!-- Кнопка создания -->
+            <div class="d-flex justify-content-center mt-4">
+               <button type="submit" class="btn btn-success px-4">Создать курс</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+{% endblock %}
