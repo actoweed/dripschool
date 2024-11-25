@@ -1,0 +1,58 @@
+{% extends 'index.html' %}
+{% block title %}Dashboard | eLMS {% endblock title %}
+{% block profile %}
+{% url 'profile' student.student_id %}
+{% endblock %}
+{% block user %}
+{{student.name}}
+{% endblock user %}
+{% block allCourses %}
+{% url 'courses' %}
+{% endblock%}
+{% block courses %}
+{% url 'myCourses' %}
+{% endblock %}
+{% block content %}
+<div>
+   <!--navigation links-->
+   <div class="container">
+      <div class="container shadow-sm">
+         <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='currentColor'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+            <ol class="breadcrumb p-3">
+               <li class="breadcrumb-item active" aria-current="page">Мои курсы</li>
+            </ol>
+         </nav>
+      </div>
+      {% if courses %}
+      <!-- Course container -->
+      <div class="card_primary d-flex justify-content-center flex-wrap">
+         {% for courses in courses %}
+         <!-- individual course starts -->
+         <div class="cd card text-center my-4 mx-4" style="width: 30rem !important;">
+            <div class="card-header text-light fw-bold">
+               Предмет {{courses.department}}
+            </div>
+            <div class="card-body">
+               <h5 class="card-title fw-bold"> {{courses.department}}-{{courses.code}} : {{courses.name}}</h5>
+               <a href="{% url 'course' courses.code %}" class="btn btn-outline-dark px-5">Вход</a>
+            </div>
+            <div class="card-footer text-light fw-bold">
+               {% if courses.faculty %}
+               Учитель курса : {{ courses.faculty.name}}
+               {% else %}
+               Учитель еще назначен :(
+               {% endif %}
+            </div>
+         </div>
+         <!-- individual course ends -->
+         {% endfor %}
+         <!-- Course container ends -->
+      </div>
+      {% else %}
+      <div class="text-center fs-5 text-secondary">
+         <p>Вы не записаны ни на один курс 🙁</p>
+      </div>
+      {% endif %}
+   </div>
+</div>
+{% endblock %}
